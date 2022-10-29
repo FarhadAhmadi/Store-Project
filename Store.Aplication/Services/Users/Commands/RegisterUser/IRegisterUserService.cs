@@ -128,24 +128,6 @@ namespace Store.Aplication.Services.Users.Commands.RegisterUser
                 };
             }
         }
-        public class RequestRegisterUserDto
-        {
-            public string FullName { get; set; }
-            public string Email { get; set; }
-            public string passWord { get; set; }
-            public string RePassword { get; set; }
-            public List<RolesRegisterUserDto> Roles { get; set; }
-
-
-        }
-        public class RolesRegisterUserDto
-        {
-            public int Id { get; set; }
-
-        }
-        public class ResultRegisterUserDto
-        {
-            public int UserId { get; set; }
-        }
     }
 }
+

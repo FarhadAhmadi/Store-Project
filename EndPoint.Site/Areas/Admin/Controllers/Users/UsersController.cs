@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Internal;
+using Store.Aplication.Services.Users.Commands.RegisterUser;
 using Store.Aplication.Services.Users.Queries.GetRoles;
 using Store.Aplication.Services.Users.Queries.GetUser;
 
@@ -11,12 +12,12 @@ namespace EndPoint.Site.Areas.Admin.Controllers.Users
     {
         private readonly IGetUsersService _GetUsersService;
         private readonly IGetRolesService _GetRolesService;
-        private readonly IRegisteredServices _RegisteredServices;
-        public UsersController(IGetUsersService getUsersService , IGetRolesService getRolesService , IRegisteredServices registeredServices)
+        private readonly IRegisterUserService _RegisterUserService;
+        public UsersController(IGetUsersService getUsersService, IGetRolesService getRolesService, IRegisterUserService registerUserService)
         {
             _GetUsersService = getUsersService;
-            _GetRolesService = getRolesService; 
-            _RegisteredServices = registeredServices;
+            _GetRolesService = getRolesService;
+            _RegisterUserService = registerUserService;
         }
         [HttpGet]
         public IActionResult Index(string Searchkey, int Page)
@@ -30,13 +31,28 @@ namespace EndPoint.Site.Areas.Admin.Controllers.Users
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Roles = new SelectList(_GetRolesService.Execute().Data , "Id" , "Name");
+            ViewBag.Roles = new SelectList(_GetRolesService.Execute().Data, "Id", "Name");
             return View();
         }
         [HttpPost]
-        public IActionResult Create(string Email ,string FullName ,int RoleId ,string Password ,string RePassword)
+        public IActionResult Create(string Email, string FullName, int RoleId, string Password, string RePassword)
         {
-            return View();
+            var result = _RegisterUserService.Execute(new RequestRegisterUserDto
+            {
+                FullName = FullName,
+                Email = Email,
+                Roles = new List<RolesRegisterUserDto>()
+                {
+                    new RolesRegisterUserDto
+                    {
+                        Id = RoleId,
+                    }
+                },
+                passWord = Password,
+                RePassword = RePassword
+            });
+
+            return Json(result);
         }
     }
 }
