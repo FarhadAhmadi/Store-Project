@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Presentaion.Contexts;
 
@@ -11,9 +12,10 @@ using Store.Presentaion.Contexts;
 namespace Store.persistence.Migrations
 {
     [DbContext(typeof(DatabaeContext))]
-    partial class DatabaeContextModelSnapshot : ModelSnapshot
+    [Migration("20221103141651_AddProductTable")]
+    partial class AddProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

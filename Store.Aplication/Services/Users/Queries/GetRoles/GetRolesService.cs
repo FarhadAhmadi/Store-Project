@@ -16,14 +16,14 @@ namespace Store.Aplication.Services.Users.Queries.GetRoles
             var Roles = _Context.Roles.Select(e => new RolesDto
             {
                 Id = e.Id,
-                Name = e.name,
+                Name = e.Name,
             }).ToList();
 
             return new ResultDto<List<RolesDto>>
             {
                 Data = Roles,
                 IsSuccess = true,
-                Messege = ""
+                Message = ""
             };
         }
     }

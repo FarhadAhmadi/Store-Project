@@ -45,8 +45,7 @@
                                     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="basicSelect">نقش</label>
-                                            <select class="form-control" id="RoleId" name="Role" asp-items="@ViewBag.Roles">
-                                            </select>
+                                            <select class="form-control" asp-items="@ViewBag.Roles" id="RoleId" name="RoleId"></select>
                                             <p><small class="text-muted">سطح دسترسی کاربر مورد نظر را تعیین کنید</small></p>
 
                                         </fieldset>
@@ -90,10 +89,11 @@
 
     <link href="~/Sweetalert2/sweetalert2.min.css" rel="stylesheet" />
     <script src="~/Sweetalert2/sweetalert2.min.js"></script>
-    }
 
     <script>
         function Registeruser() {
+
+
             swal.fire({
                 title: 'ثبت نام کاربر',
                 text: "آیا میخواهید ثبت نام کاربر را انجام دهید؟",
@@ -105,7 +105,6 @@
                 cancelButtonText: 'خیر'
             }).then((result) => {
                 if (result.value) {
-
                     var fullname = $("#fullname").val();
                     var email = $("#email").val();
                     var RoleId = $("#RoleId").val();
@@ -129,7 +128,7 @@
                         success: function (data) {
                             if (data.isSuccess == true) {
                                 swal.fire(
-                                    'موفق!',
+                                    'ثبت نام با موفقیت انجام شد',
                                     data.message,
                                     'success'
                                 ).then(function (isConfirm) {
@@ -141,7 +140,7 @@
                             else {
 
                                 swal.fire(
-                                    'هشدار!',
+                                    'ثبت نام با موفقیت انجام نشد!',
                                     data.message,
                                     'warning'
                                 );
@@ -158,3 +157,4 @@
             })
         }
     </script>
+    }

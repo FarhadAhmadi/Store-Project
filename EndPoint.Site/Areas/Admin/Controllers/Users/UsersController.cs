@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Internal;
+using Store.Aplication.Services.Users.Commands.ChangeUserStatus;
+using Store.Aplication.Services.Users.Commands.EditUser;
 using Store.Aplication.Services.Users.Commands.RegisterUser;
+using Store.Aplication.Services.Users.Commands.RemoveUser;
 using Store.Aplication.Services.Users.Queries.GetRoles;
 using Store.Aplication.Services.Users.Queries.GetUser;
+using Store.Common.Dto;
 
 namespace EndPoint.Site.Areas.Admin.Controllers.Users
 {
@@ -13,11 +17,18 @@ namespace EndPoint.Site.Areas.Admin.Controllers.Users
         private readonly IGetUsersService _GetUsersService;
         private readonly IGetRolesService _GetRolesService;
         private readonly IRegisterUserService _RegisterUserService;
-        public UsersController(IGetUsersService getUsersService, IGetRolesService getRolesService, IRegisterUserService registerUserService)
+        private readonly IRemoveUserService _RemoveUserService;
+        private readonly IChangeUserStatusService _ChangeUserStatusService;
+        private readonly IEditUserService _EditUserService;
+        public UsersController(IGetUsersService getUsersService, IGetRolesService getRolesService, IRegisterUserService registerUserService,
+            IRemoveUserService removeUserService, IChangeUserStatusService changeUserStatusService, IEditUserService editUserService)
         {
             _GetUsersService = getUsersService;
             _GetRolesService = getRolesService;
             _RegisterUserService = registerUserService;
+            _RemoveUserService = removeUserService;
+            _ChangeUserStatusService = changeUserStatusService;
+            _EditUserService = editUserService;
         }
         [HttpGet]
         public IActionResult Index(string Searchkey, int Page)
@@ -35,24 +46,42 @@ namespace EndPoint.Site.Areas.Admin.Controllers.Users
             return View();
         }
         [HttpPost]
-        public IActionResult Create(string Email, string FullName, int RoleId, string Password, string RePassword)
+        public IActionResult Create(string fullName , string email , int roleId , string password , string rePassword )
         {
-            var result = _RegisterUserService.Execute(new RequestRegisterUserDto
+            ResultDto<ResultRegisterUserServiceDTO> result =  _RegisterUserService.Execute(new RequestRegisterUserServiceDTO
             {
-                FullName = FullName,
-                Email = Email,
-                Roles = new List<RolesRegisterUserDto>()
+                FullName = fullName,
+                Email = email,
+                Roles = new List<RoleDTO>()
                 {
-                    new RolesRegisterUserDto
+                    new RoleDTO
                     {
-                        Id = RoleId,
+                        Id = roleId
                     }
                 },
-                passWord = Password,
-                RePassword = RePassword
+                Password = password,
+                RePassword = rePassword
             });
 
             return Json(result);
+        }
+        [HttpPost]
+        public IActionResult Remove(int userId)
+        {
+            return Json(_RemoveUserService.Execute(userId));
+        }
+        [HttpPost]
+        public IActionResult ChangeUserStatus(int userId)
+        {
+           return Json(_ChangeUserStatusService.Execute(userId));
+        }
+        public IActionResult Edit(int userId, string fullName)
+        {
+            return Json(_EditUserService.Execute(new RequestEditUserDto
+            {
+                FullName = fullName,
+                UserId = userId
+            }));
         }
     }
 }

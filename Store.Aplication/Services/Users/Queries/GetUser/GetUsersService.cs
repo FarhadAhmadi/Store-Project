@@ -25,7 +25,12 @@ namespace Store.Aplication.Services.Users.Queries.GetUser
             {
                 Id = e.Id,
                 FullName = e.FullName,
-                Email = e.Email,  
+                Email = e.Email,
+               InsertTime = e.InsertTime,
+               IsRemoved = e.IsRemoved,
+               RemoveTime = e.RemoveTime,
+               UpdateTime = e.UpdateTime,
+               IsActive = e.IsActive,
             }).ToList();
 
             return new GetUsersResultDto

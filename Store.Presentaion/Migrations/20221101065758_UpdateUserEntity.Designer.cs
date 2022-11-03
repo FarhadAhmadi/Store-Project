@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Presentaion.Contexts;
 
@@ -11,9 +12,10 @@ using Store.Presentaion.Contexts;
 namespace Store.persistence.Migrations
 {
     [DbContext(typeof(DatabaeContext))]
-    partial class DatabaeContextModelSnapshot : ModelSnapshot
+    [Migration("20221101065758_UpdateUserEntity")]
+    partial class UpdateUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,40 +23,6 @@ namespace Store.persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Store.Domain.Entities.Products.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("InsertTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsRemoved")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ParentCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("RemoveTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentCategoryId");
-
-                    b.ToTable("Categories");
-                });
 
             modelBuilder.Entity("Store.Domain.Entities.Users.Role", b =>
                 {
@@ -64,7 +32,7 @@ namespace Store.persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -76,17 +44,17 @@ namespace Store.persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Admin"
+                            name = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Operator"
+                            name = "Operator"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Customer"
+                            name = "Customer"
                         });
                 });
 
@@ -156,15 +124,6 @@ namespace Store.persistence.Migrations
                     b.ToTable("UserInRoles");
                 });
 
-            modelBuilder.Entity("Store.Domain.Entities.Products.Category", b =>
-                {
-                    b.HasOne("Store.Domain.Entities.Products.Category", "ParentCategory")
-                        .WithMany("ChildCategories")
-                        .HasForeignKey("ParentCategoryId");
-
-                    b.Navigation("ParentCategory");
-                });
-
             modelBuilder.Entity("Store.Domain.Entities.Users.UserInRole", b =>
                 {
                     b.HasOne("Store.Domain.Entities.Users.Role", "Role")
@@ -182,11 +141,6 @@ namespace Store.persistence.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Store.Domain.Entities.Products.Category", b =>
-                {
-                    b.Navigation("ChildCategories");
                 });
 
             modelBuilder.Entity("Store.Domain.Entities.Users.Role", b =>
