@@ -12,7 +12,6 @@ namespace Store.Aplication.Services.Products.Queries.GetCategories
     public interface IGetCategoriesService
     {
         ResultDto<List<GetCategoriesDto>> Execute( int? parentId);
-
     }
     public class GetCategoriesService : IGetCategoriesService
     {
@@ -21,10 +20,6 @@ namespace Store.Aplication.Services.Products.Queries.GetCategories
         {
             _Context = context;
         }
-
-
-
-
         public ResultDto<List<GetCategoriesDto>> Execute(int? parentId)
         {
             List<GetCategoriesDto>? result = _Context.Categories
@@ -46,17 +41,14 @@ namespace Store.Aplication.Services.Products.Queries.GetCategories
                     }
                     : null
                 }).ToList();
-
-
             return new ResultDto<List<GetCategoriesDto>>
             {
                 Data = result,
                 IsSuccess = true,
                 Message = "لیست با موفقیت برگشت داده شد"
-            }
+            };
         }
     }
-
     public class GetCategoriesDto
     {
         public int Id { get; set; }
@@ -64,7 +56,6 @@ namespace Store.Aplication.Services.Products.Queries.GetCategories
         public bool HasChild { get; set; }
         public ParentDto Parent { get; set; }
     }
-
     public class ParentDto
     {
         public int Id { get; set; }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Aplication.Interface.FacadPatterns;
 
-namespace EndPoint.Site.Areas.Admin.Controllers.Categories
+namespace EndPoint.Site.Areas.Admin.Controllers
 {
     [Area("admin")]
     public class CategoriesController : Controller

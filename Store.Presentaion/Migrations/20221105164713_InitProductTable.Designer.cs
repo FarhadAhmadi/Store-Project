@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Presentaion.Contexts;
 
@@ -11,9 +12,10 @@ using Store.Presentaion.Contexts;
 namespace Store.persistence.Migrations
 {
     [DbContext(typeof(DatabaeContext))]
-    partial class DatabaeContextModelSnapshot : ModelSnapshot
+    [Migration("20221105164713_InitProductTable")]
+    partial class InitProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,57 +56,6 @@ namespace Store.persistence.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Store.Domain.Entities.Products.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Displayed")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("InsertTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Inventory")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsRemoved")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("RemoveTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Store.Domain.Entities.Users.Role", b =>
@@ -214,17 +165,6 @@ namespace Store.persistence.Migrations
                         .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
-                });
-
-            modelBuilder.Entity("Store.Domain.Entities.Products.Product", b =>
-                {
-                    b.HasOne("Store.Domain.Entities.Products.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Store.Domain.Entities.Users.UserInRole", b =>

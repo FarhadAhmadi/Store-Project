@@ -21,6 +21,10 @@ namespace Store.Presentaion.Contexts
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserInRole> UserInRoles { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products{ get; set; }
+        public DbSet<ProductFeaTures> ProductFeaTures { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             SetDataForRoles(builder);
